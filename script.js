@@ -1,7 +1,9 @@
 const inputField = document.getElementById('input-field');
 const listContainer = document.getElementById('list-container');
 
+// см. п. 1
 const AddItemToList = () => {
+  // см. п. 2
   let listItem = document.createElement('li');
   let listItemInput = document.createElement('input');
   listItemInput.setAttribute("type", "checkbox");
@@ -21,6 +23,7 @@ const AddItemToList = () => {
 };
 
 listContainer.addEventListener("click", (e) => {
+  // см. п. 3 
   if(e.target.tagName === 'SPAN') {
     e.target.parentElement.remove();
   }
