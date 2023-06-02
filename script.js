@@ -1,13 +1,12 @@
 const inputField = document.getElementById('input-field');
 const listContainer = document.getElementById('list-container');
+const deleteItemTag = 'span';
 
-// см. п. 1
-const AddItemToList = () => {
-  // см. п. 2
-  let listItem = document.createElement('li');
-  let listItemInput = document.createElement('input');
+const addItemToList = () => {
+  const listItem = document.createElement('li');
+  const listItemInput = document.createElement('input');
   listItemInput.setAttribute("type", "checkbox");
-  let listItemLabel = document.createElement('label');
+  const listItemLabel = document.createElement('label');
 
   listItemLabel.innerHTML = inputField.value;
 
@@ -15,7 +14,7 @@ const AddItemToList = () => {
   listItem.appendChild(listItemInput);
   listItem.appendChild(listItemLabel);
 
-  let deleteItem = document.createElement('span');
+  const deleteItem = document.createElement(deleteItemTag);
   deleteItem.innerHTML = "☒";
   listItem.appendChild(deleteItem);
 
@@ -23,8 +22,7 @@ const AddItemToList = () => {
 };
 
 listContainer.addEventListener("click", (e) => {
-  // см. п. 3 
-  if(e.target.tagName === 'SPAN') {
+  if(e.target.tagName.toLowerCase() === deleteItemTag) {
     e.target.parentElement.remove();
   }
 })
