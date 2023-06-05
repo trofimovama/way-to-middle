@@ -34,10 +34,17 @@ const addItemToList = () => {
 listContainer.addEventListener("click", (e) => {
   if(e.target.tagName.toLowerCase() === deleteItemTag) {
     e.target.parentElement.remove();
-    storeData()
   } else if (e.target.tagName.toLowerCase() === inputItemTag) {
     e.target.toggleAttribute('checked');
-    storeData();
+  }
+  storeData();
+});
+
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && inputField.value !== "") {
+    addItemToList();
+  } else if (e.key === "Escape" && inputField.value !== "") {
+    inputField.value = "";
   }
 });
 
