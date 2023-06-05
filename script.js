@@ -1,10 +1,19 @@
 const inputField = document.getElementById('input-field');
 const listContainer = document.getElementById('list-container');
 const deleteItemTag = 'span';
+const inputItemTag = 'input';
+
+const storeData = () => {
+  localStorage.setItem("data", listContainer.innerHTML);
+};
+
+const displayData = () => {
+  listContainer.innerHTML = localStorage.getItem("data");
+};
 
 const addItemToList = () => {
   const listItem = document.createElement('li');
-  const listItemInput = document.createElement('input');
+  const listItemInput = document.createElement(inputItemTag);
   listItemInput.setAttribute("type", "checkbox");
   const listItemLabel = document.createElement('label');
 
@@ -19,10 +28,17 @@ const addItemToList = () => {
   listItem.appendChild(deleteItem);
 
   inputField.value = "";
+  storeData();
 };
 
 listContainer.addEventListener("click", (e) => {
   if(e.target.tagName.toLowerCase() === deleteItemTag) {
     e.target.parentElement.remove();
+    storeData()
+  } else if (e.target.tagName.toLowerCase() === inputItemTag) {
+    e.target.toggleAttribute('checked');
+    storeData();
   }
-})
+});
+
+displayData();
