@@ -40,12 +40,14 @@ listContainer.addEventListener("click", (e) => {
   storeData();
 });
 
-window.addEventListener("keydown", (e) => {
-  if (e.key === "Enter" && inputField.value !== "") {
-    addItemToList();
-  } else if (e.key === "Escape" && inputField.value !== "") {
-    inputField.value = "";
-  }
+inputField.addEventListener("keydown", (e) => {
+  if (inputField.value) {
+    if (e.key === "Enter") {
+      addItemToList();
+    } else if (e.key === "Escape") {
+      inputField.value = "";
+    }
+  };
 });
 
 displayData();
