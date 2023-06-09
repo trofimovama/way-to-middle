@@ -1,11 +1,37 @@
 body {
   background-color: gray;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   font-size: 20px;
   display: flex;
+  flex-direction: column;
+}
+
+.container {
+  padding: 15px;
+  display: flex;
   justify-content: center;
-  align-items: center;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+
+.list-app {
+  background-color: white;
+  margin: 10px;
+  padding: 20px;
+}
+
+#list-conatiner {
+  display: flex;
+}
+
+.delete-list-icon {
+  font-size: 25px;
+  display: flex;
+  justify-content: flex-end;
+  margin: 0;
+  cursor: pointer;
 }
 
 ul li {
@@ -13,17 +39,6 @@ ul li {
   position: relative;
 }
 
-#list-conatiner {
-  display: flex;
-}
-
-.container {
-  background-color: white;
-  width: 50%;
-  padding: 15px;
-  display: flex;
-  justify-content: center;
-}
 
 .list-title {
   color: gray;
@@ -34,6 +49,7 @@ ul li {
   background-color: black;
   padding: 1px 10px;
   color: white;
+  cursor: pointer;
 }
 
 input[type=checkbox]:checked + label {
@@ -56,4 +72,10 @@ ul li span {
 
 ul li span:hover {
   cursor: pointer;
+}
+
+.button-footer {
+  margin: auto 0 20px 20px;
+  cursor: pointer;
+  width: 10%;
 }
