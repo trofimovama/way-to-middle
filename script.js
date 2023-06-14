@@ -1,52 +1,79 @@
-const container = document.getElementById("container");
-const id = Date. now();
+/**  
+ * @type {{ 
+*  items: [
+  *    [
+  *      { 
+  *        text: String, 
+  *        isDone: Boolean 
+  *      }, 
+  *      {
+  *        text: String, 
+ *         isDone: Boolean 
+  *      },
+  *      ...
+  *    ],
+  *    []
+  *  ] 
+  * }}
+  */
 
-const addToListButton = document.getElementById('add-lists');
-const deleteItemTag = 'span';
-const inputItemTag = 'input';
+const rootState = [];
+const rootContainer = document.getElementById("container");
 
-const saveData = () => {
-  localStorage.setItem('data', container.innerHTML);
+const notifyStateUpdated = () => {
+  localStorage.setItem('data', rootContainer.innerHTML);
 };
 
 const displayData = () => {
-  container.innerHTML = localStorage.getItem("data");
+  rootContainer.innerHTML = localStorage.getItem("data");
 };
 
-const addCardContainer = () => {
+const renderApp = (appState) => {
+  const addListsButton = document.getElementById("add-lists");
 
-  const addListItem = () => {
-    const listItem = document.createElement('li');
-  
-      const listItemInput = document.createElement(inputItemTag);
-      listItemInput.setAttribute("type", "checkbox");
+  const todoListElems = appState
+  .map((todoListData) => {
+    const destroyFromState = () => {
+      const i = appState.indexOf(todoListData);
+      appState.splice(i, 1);
 
-      const listItemLabel = document.createElement('label');
-      listItemLabel.innerHTML = inputField.value;
+      notifyStateUpdated();
+    };
 
-      const deleteItem = document.createElement(deleteItemTag);
-      deleteItem.innerHTML = "☒";
+    const component = renderTodoList(todoListData, destroyFromState);
 
-      listContainer.appendChild(listItem);
+    return component;
+  })
+  .map(({ elem }) => elem);
+  rootContainer.append(...todoListElems);
 
-      listItem.append(listItemInput, listItemLabel, deleteItem);
+  addListsButton.addEventListener('click', () => {
+    const newListData = [];
+    rootState.push(newListData);
 
-      inputField.value = "";
-      saveData();
+    const { elem } = renderTodoList(newListData, () => {
+      const i = appState.indexOf(newListData);
+      appState.splice(i, 1);
+
+      notifyStateUpdated();
+    });
+    rootContainer.append(elem);
+
+    notifyStateUpdated();
+  });
+
+  return {
+    elem: rootContainer
   };
+};
 
+const renderTodoList = (todoListState, onDestroy) => {
   const cardContainer = document.createElement('div');
   cardContainer.setAttribute("class", "list-app");
 
   const deleteCardIcon = document.createElement('p');
   deleteCardIcon.innerHTML = "✖";
   deleteCardIcon.setAttribute("class", "delete-list-icon");
-  deleteCardIcon.addEventListener("click", (e) => {
-    if (e.target.tagName.toLowerCase() === "p") {
-      e.target.parentElement.remove();
-      saveData();
-    };
-  });
 
   const cardTitle = document.createElement('h1');
   cardTitle.setAttribute("class", "list-title");
@@ -57,49 +84,99 @@ const addCardContainer = () => {
 
   const inputField = document.createElement('input');
   inputField.setAttribute("type", "text");
-  inputField.setAttribute("id", id);
   inputField.setAttribute("placeholder", "Add something...");
-  inputField.addEventListener("keydown", (e) => {
-    if (inputField.value) {
-      if (e.key === "Enter") {
-        addListItem();
-      } else if (e.key === "Escape") {
-        inputField.value = "";
-      }
-      saveData();
-    };
-  });
 
   const listButton = document.createElement('button');
   listButton.setAttribute("class", "button");
   listButton.innerHTML = "Add";
-  listButton.addEventListener("click", () => {
-    if (inputField.value) {
-      addListItem();
-    };
-  });
 
   const listContainer = document.createElement('ul');
   listContainer.setAttribute("class", "list-container");
 
-  container.appendChild(cardContainer);
-
   cardContainer.append(deleteCardIcon, cardTitle, inputContainer, listContainer);
-  
+
   inputContainer.append(inputField, listButton);
 
-  listContainer.addEventListener("click", (e) => {
-    if (e.target.tagName.toLowerCase() === deleteItemTag) {
-      e.target.parentElement.remove();
-    } else if (e.target.tagName.toLowerCase() === inputItemTag) {
-      e.target.toggleAttribute('checked');
+  const todoListItemElems = todoListState
+    .map((todoListItemData) => renderTodoListItem(todoListItemData))
+    .map(({ elem }) => elem);
+
+  listContainer.append(...todoListItemElems);
+
+  const createNewTodoItem = () => {
+    if (!inputField.value) {
+      return;
     };
-    saveData();
+
+    const newTodoItemData = { text: inputField.value, isDone: false };
+    todoListState.push(newTodoItemData);
+
+    const { elem } = renderTodoListItem(newTodoItemData, () => {
+      const i = todoListState.indexOf(newTodoItemData);
+      todoListState.splice(i, 1);
+
+      notifyStateUpdated();
+    });
+
+    listContainer.append(elem);
+
+    inputField.value = '';
+
+    notifyStateUpdated();
+  };
+
+  inputField.addEventListener('keydown', (e) => {
+    if (e.key === "Enter") {
+      createNewTodoItem();
+    } 
+    
+    if (e.key === "Escape") {
+      inputField.value = "";
+    };
   });
+
+  listButton.addEventListener('click', () => createNewTodoItem());
+
+  deleteCardIcon.addEventListener('click', () => {
+    cardContainer.remove();
+    onDestroy();
+  });
+
+  return {
+    elem: cardContainer
+  };
 };
 
-addToListButton.addEventListener ("click", () => {
-  addCardContainer();
-});
+const renderTodoListItem = (todoListItemState, onDestroy) => {
+  const listItem = document.createElement('li');
 
+  const listItemInput = document.createElement('input');
+  listItemInput.setAttribute("type", "checkbox");
+
+  const listItemLabel = document.createElement('label');
+
+  const deleteItem = document.createElement('span');
+  deleteItem.innerHTML = "☒";
+
+  listItem.append(listItemInput, listItemLabel, deleteItem);
+
+  listItemLabel.innerHTML = todoListItemState.text;
+
+  listItemInput.addEventListener('click', () => {
+      listItemInput.toggleAttribute('checked', todoListItemState.isDone = true);
+      notifyStateUpdated();
+  });
+
+  deleteItem.addEventListener('click', (e) => {
+    e.target.parentElement.remove();
+    onDestroy();
+    notifyStateUpdated();
+  });
+
+  return {
+    elem: listItem
+  };
+};
+
+renderApp(rootState);
 displayData();
