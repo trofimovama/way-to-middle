@@ -17,16 +17,20 @@
   * }}
   */
 
-const rootState = [];
 const rootContainer = document.getElementById("container");
 
 const notifyStateUpdated = () => {
-  localStorage.setItem('data', rootContainer.innerHTML);
+  const jsonRootState = JSON.stringify(rootState);
+  localStorage.setItem("data", jsonRootState);
 };
 
-const displayData = () => {
-  rootContainer.innerHTML = localStorage.getItem("data");
+const restoreState = () => {
+  const strRootArray = localStorage.getItem("data");
+  const parsedRootState = JSON.parse(strRootArray);
+  return parsedRootState;
 };
+
+const rootState = restoreState() || [];
 
 const renderApp = (appState) => {
   const addListsButton = document.getElementById("add-lists");
@@ -98,7 +102,12 @@ const renderTodoList = (todoListState, onDestroy) => {
   inputContainer.append(inputField, listButton);
 
   const todoListItemElems = todoListState
-    .map((todoListItemData) => renderTodoListItem(todoListItemData))
+    .map((todoListItemData) => renderTodoListItem(todoListItemData, () => {
+      const i = todoListState.indexOf(todoListItemElems);
+      todoListState.splice(i, 1);
+
+      notifyStateUpdated();
+    }))
     .map(({ elem }) => elem);
 
   listContainer.append(...todoListItemElems);
@@ -148,6 +157,7 @@ const renderTodoList = (todoListState, onDestroy) => {
 };
 
 const renderTodoListItem = (todoListItemState, onDestroy) => {
+
   const listItem = document.createElement('li');
 
   const listItemInput = document.createElement('input');
@@ -162,15 +172,18 @@ const renderTodoListItem = (todoListItemState, onDestroy) => {
 
   listItemLabel.innerHTML = todoListItemState.text;
 
-  listItemInput.addEventListener('click', () => {
-      listItemInput.toggleAttribute('checked', todoListItemState.isDone = true);
-      notifyStateUpdated();
-  });
+  if(todoListItemState.isDone) {
+    listItemInput.setAttribute('checked', todoListItemState.isDone);
+  }
 
-  deleteItem.addEventListener('click', (e) => {
-    e.target.parentElement.remove();
-    onDestroy();
+  listItemInput.addEventListener('click', () => {
+    listItemInput.checked ? todoListItemState.isDone = true : todoListItemState.isDone = false;
     notifyStateUpdated();
+  })
+
+  deleteItem.addEventListener('click', () => {
+    listItem.remove();
+    onDestroy();
   });
 
   return {
@@ -179,4 +192,4 @@ const renderTodoListItem = (todoListItemState, onDestroy) => {
 };
 
 renderApp(rootState);
-displayData();
+restoreState();
