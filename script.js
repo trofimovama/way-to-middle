@@ -177,7 +177,7 @@ const renderTodoListItem = (todoListItemState, onDestroy) => {
   }
 
   listItemInput.addEventListener('click', () => {
-    listItemInput.checked ? todoListItemState.isDone = true : todoListItemState.isDone = false;
+    todoListItemState.isDone = listItemInput.checked
     notifyStateUpdated();
   })
 
