@@ -114,7 +114,8 @@ const renderTodoList = (todoListState, onDestroy) => {
 
   const createNewTodoItem = () => {
     if (!inputField.value) {
-      inputField.removeEventListener('keydown',  createNewTodoItem());
+      inputField.removeEventListener('keydown',  createNewTodoItem);
+      return;
     };
 
     const newTodoItemData = { text: inputField.value, isDone: false };
@@ -134,14 +135,14 @@ const renderTodoList = (todoListState, onDestroy) => {
     notifyStateUpdated();
   };
 
-  const escapeEmpty = () => inputField.value = "";
+  const cleanField = () => inputField.value = "";
 
   const inputActions = (e) => {
     if (e.key === "Enter") {
       createNewTodoItem();
     }
     if (e.key === "Escape") {
-      escapeEmpty();
+      cleanField();
     };
   }
 
@@ -152,6 +153,7 @@ const renderTodoList = (todoListState, onDestroy) => {
   deleteCardIcon.addEventListener('click', () => {
     cardContainer.remove();
     inputField.removeEventListener('keydown', inputActions);
+    inputField.removeEventListener('click', createNewTodoItem);
     onDestroy();
   }, { once: true });
   
