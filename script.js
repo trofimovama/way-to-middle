@@ -153,7 +153,7 @@ const renderTodoList = (todoListState, onDestroy) => {
   deleteCardIcon.addEventListener('click', () => {
     cardContainer.remove();
     inputField.removeEventListener('keydown', inputActions);
-    inputField.removeEventListener('click', createNewTodoItem);
+    listButton.removeEventListener('click', createNewTodoItem);
     onDestroy();
   }, { once: true });
   
