@@ -114,6 +114,7 @@ const renderTodoList = (todoListState, onDestroy) => {
 
   const createNewTodoItem = () => {
     if (!inputField.value) {
+      inputField.removeEventListener('keydown',  createNewTodoItem);
       return;
     };
 
@@ -134,23 +135,28 @@ const renderTodoList = (todoListState, onDestroy) => {
     notifyStateUpdated();
   };
 
-  inputField.addEventListener('keydown', (e) => {
+  const cleanField = () => inputField.value = "";
+
+  const inputActions = (e) => {
     if (e.key === "Enter") {
       createNewTodoItem();
-    } 
-    
+    }
     if (e.key === "Escape") {
-      inputField.value = "";
+      cleanField();
     };
-  });
+  }
 
-  listButton.addEventListener('click', () => createNewTodoItem());
+  inputField.addEventListener('keydown', inputActions);
+
+  listButton.addEventListener('click', createNewTodoItem);
 
   deleteCardIcon.addEventListener('click', () => {
     cardContainer.remove();
+    inputField.removeEventListener('keydown', inputActions);
+    listButton.removeEventListener('click', createNewTodoItem);
     onDestroy();
-  });
-
+  }, { once: true });
+  
   return {
     elem: cardContainer
   };
@@ -174,17 +180,20 @@ const renderTodoListItem = (todoListItemState, onDestroy) => {
 
   if(todoListItemState.isDone) {
     listItemInput.setAttribute('checked', todoListItemState.isDone);
-  }
+  };
 
-  listItemInput.addEventListener('click', () => {
-    todoListItemState.isDone = listItemInput.checked
+  setIsDoneState = () => {
+    todoListItemState.isDone = listItemInput.checked;
     notifyStateUpdated();
-  })
+  };
+
+  listItemInput.addEventListener('click', setIsDoneState);
 
   deleteItem.addEventListener('click', () => {
     listItem.remove();
+    listItemInput.removeEventListener('click', setIsDoneState);
     onDestroy();
-  });
+  }, { once: true });
 
   return {
     elem: listItem
