@@ -16,7 +16,6 @@ export const renderApp = (appState) => {
     };
 
     const component = renderTodoList(todoListData, destroyFromState);
-
     return component;
   })
   .map(({ elem }) => elem);
@@ -29,9 +28,9 @@ export const renderApp = (appState) => {
     const { elem } = renderTodoList(newListData, () => {
       const i = appState.indexOf(newListData);
       appState.splice(i, 1);
-
-      notifyStateUpdated();
+      notifyStateUpdated();  
     });
+    
     rootContainer.append(elem);
 
     notifyStateUpdated();
