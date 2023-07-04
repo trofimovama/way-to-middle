@@ -3,15 +3,13 @@ import { renderTemplate } from "../utils/render-template.js";
 
 export const renderTodoListItem = (todoListItemState, onDestroy) => {
 
-  const fragmentItem = renderTemplate(
-    `
+  const fragmentItem = renderTemplate(`
     <li>
-      <input type='checkbox' class='checkbox'/>
+      <input type="checkbox" class="checkbox"/>
         <label>${todoListItemState.text}</label>
       <span>☒</span>
     </li>
-  `
-  );
+  `);
 
   const listItemInput = fragmentItem.querySelector('.checkbox');
   const deleteItem = fragmentItem.querySelector('span');

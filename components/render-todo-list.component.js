@@ -4,19 +4,17 @@ import { renderTemplate } from '../utils/render-template.js';
 
 export const renderTodoList = (todoListState, onDestroy) => {
 
-  const fragment = renderTemplate(
-    `
-    <div class='list-app'>
-      <p class='delete-list-icon'>✖</p>
-      <h1 class='list-title'>Plans</h1>
-      <div class='list-item'>
-        <input type='text' placeholder='Add something...' class='input' />
-        <button class='button'>Add</button>
+  const fragment = renderTemplate(`
+    <div class="list-app">
+      <p class="delete-list-icon">✖</p>
+      <h1 class="list-title">Plans</h1>
+      <div class="list-item">
+        <input type="text" placeholder="Add something..." class="input" />
+        <button class="button">Add</button>
       </div>
-      <ul class='list-container'></ul>
+      <ul class="list-container"></ul>
     </div>
-  `
-  );
+  `);
   const cardContainer = fragment.querySelector('.list-app');
   const listContainer = fragment.querySelector('.list-container');
   const inputField = fragment.querySelector('.input');
