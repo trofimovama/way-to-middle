@@ -1,20 +1,21 @@
 import { notifyStateUpdated } from "../state/root.state.js";
+import { renderTemplate } from "../utils/render-template.js";
 
 export const renderTodoListItem = (todoListItemState, onDestroy) => {
 
-  const listItem = document.createElement('li');
+  const fragmentItem = renderTemplate(
+    `
+    <li>
+      <input type='checkbox' class='checkbox'/>
+        <label>${todoListItemState.text}</label>
+      <span>☒</span>
+    </li>
+  `
+  );
 
-  const listItemInput = document.createElement('input');
-  listItemInput.setAttribute("type", "checkbox");
-
-  const listItemLabel = document.createElement('label');
-
-  const deleteItem = document.createElement('span');
-  deleteItem.innerHTML = "☒";
-
-  listItem.append(listItemInput, listItemLabel, deleteItem);
-
-  listItemLabel.innerHTML = todoListItemState.text;
+  const listItemInput = fragmentItem.querySelector('.checkbox');
+  const deleteItem = fragmentItem.querySelector('span');
+  const listItem = fragmentItem.querySelector('li');
 
   if(todoListItemState.isDone) {
     listItemInput.setAttribute('checked', todoListItemState.isDone);
@@ -34,6 +35,6 @@ export const renderTodoListItem = (todoListItemState, onDestroy) => {
   }, { once: true });
 
   return {
-    elem: listItem
+    elem: fragmentItem
   };
 };

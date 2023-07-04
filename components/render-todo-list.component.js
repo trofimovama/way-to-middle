@@ -1,35 +1,27 @@
 import { renderTodoListItem } from './render-todo-list-item.component.js';
 import { notifyStateUpdated } from '../state/root.state.js';
+import { renderTemplate } from '../utils/render-template.js';
 
 export const renderTodoList = (todoListState, onDestroy) => {
-  const cardContainer = document.createElement('div');
-  cardContainer.setAttribute("class", "list-app");
 
-  const deleteCardIcon = document.createElement('p');
-  deleteCardIcon.innerHTML = "✖";
-  deleteCardIcon.setAttribute("class", "delete-list-icon");
-
-  const cardTitle = document.createElement('h1');
-  cardTitle.setAttribute("class", "list-title");
-  cardTitle.innerHTML = "Plans";
-
-  const inputContainer = document.createElement('div');
-  inputContainer.setAttribute("class", "list-item");
-
-  const inputField = document.createElement('input');
-  inputField.setAttribute("type", "text");
-  inputField.setAttribute("placeholder", "Add something...");
-
-  const listButton = document.createElement('button');
-  listButton.setAttribute("class", "button");
-  listButton.innerHTML = "Add";
-
-  const listContainer = document.createElement('ul');
-  listContainer.setAttribute("class", "list-container");
-
-  cardContainer.append(deleteCardIcon, cardTitle, inputContainer, listContainer);
-
-  inputContainer.append(inputField, listButton);
+  const fragment = renderTemplate(
+    `
+    <div class='list-app'>
+      <p class='delete-list-icon'>✖</p>
+      <h1 class='list-title'>Plans</h1>
+      <div class='list-item'>
+        <input type='text' placeholder='Add something...' class='input' />
+        <button class='button'>Add</button>
+      </div>
+      <ul class='list-container'></ul>
+    </div>
+  `
+  );
+  const cardContainer = fragment.querySelector('.list-app');
+  const listContainer = fragment.querySelector('.list-container');
+  const inputField = fragment.querySelector('.input');
+  const listButton = fragment.querySelector('.button');
+  const deleteCardIcon = fragment.querySelector('.delete-list-icon');
 
   const todoListItemElems = todoListState
     .map((todoListItemData) => renderTodoListItem(todoListItemData, () => {
@@ -88,6 +80,6 @@ export const renderTodoList = (todoListState, onDestroy) => {
   }, { once: true });
   
   return {
-    elem: cardContainer
+    elem: fragment
   };
 };
