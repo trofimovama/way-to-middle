@@ -3,16 +3,17 @@ import { renderTemplate } from "../utils/render-template.js";
 
 export const renderTodoListItem = (todoListItemState, onDestroy) => {
 
+  // TODO: to replace checkboxes with icons, because they are white by default even after darkening bg
   const fragmentItem = renderTemplate(`
-    <li>
+    <li class="list-row">
       <input type="checkbox" class="checkbox"/>
-        <label>${todoListItemState.text}</label>
-      <span>☒</span>
+      <label class="list-item-content">${todoListItemState.text}</label>
+      <img class="delete-list-item" src="../icons/delete-list-item.svg" />
     </li>
   `);
 
   const listItemInput = fragmentItem.querySelector('.checkbox');
-  const deleteItem = fragmentItem.querySelector('span');
+  const deleteItem = fragmentItem.querySelector('.delete-list-item');
   const listItem = fragmentItem.querySelector('li');
 
   if(todoListItemState.isDone) {

@@ -22,6 +22,7 @@ export const renderApp = (appState) => {
   rootContainer.append(...todoListElems);
 
   addListsButton.addEventListener('click', () => {
+    // TODO: ??? compose new data str-re on the root level ??
     const newListData = [];
     rootState.push(newListData);
 

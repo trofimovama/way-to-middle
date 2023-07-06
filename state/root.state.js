@@ -9,4 +9,5 @@ export const restoreState = () => {
   return parsedRootState;
 };
 
+// TODO: ?? to implement new data str-re here ?? [] => [{title: ..., items: [{...}, {...}, {...}]}]
 export const rootState = restoreState() || [];

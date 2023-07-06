@@ -1,21 +1,29 @@
 /**  
  * @type {{ 
-*  items: [
-  *    [
-  *      { 
-  *        text: String, 
-  *        isDone: Boolean 
-  *      }, 
-  *      {
-  *        text: String, 
- *         isDone: Boolean 
-  *      },
-  *      ...
-  *    ],
-  *    []
-  *  ] 
-  * }}
-  */
+*  [
+*   {
+*     title: string,
+*     items: [
+*             {
+*               text: string,
+*               isDone: bool
+*             },
+*             ...
+*           ]
+*   },
+*   {
+*     title: string,
+*     items: [
+*             {
+*               text: string,
+*               isDone: bool
+*             }
+*           ]
+*   },
+*   ...
+* ] 
+* }}
+*/
 
 
 import { rootState, restoreState } from './state/root.state.js';
