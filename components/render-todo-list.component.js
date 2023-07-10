@@ -44,7 +44,8 @@ export const renderTodoList = (todoListState, onDestroy) => {
     }))
     .map(({ elem }) => elem)
   listContainer.append(...todoListItemElems);
-  expandCard.addEventListener('click', () => {
+
+  const expandCardEvent = () => {
     cardContainer.style.position = "absolute";
     cardContainer.style.zIndex = "10";
     cardContainer.style.top = "10%";
@@ -59,13 +60,15 @@ export const renderTodoList = (todoListState, onDestroy) => {
     listContainer.style.overflow = "auto";
     cardContainer.style.width = "400px";
     cardContainer.style.boxShadow = "none";
-  });
+  }
 
-  downsizeCard.addEventListener('click', () => {
+  const downsizeCardAction = () => {
+    expandCard.removeEventListener('click', expandCardEvent);
+    downsizeCard.removeEventListener('click', downsizeCardAction)
     window.location.reload();
-  })
+  };
 
-  listTitleIcon.addEventListener('click', () => {
+  const addTitleAction = () => {
     inputTitleField.style.color = "black";
     inputTitleField.style.fontWeight = "bold";
     inputTitleField.style.textAlign = "center";
@@ -73,13 +76,21 @@ export const renderTodoList = (todoListState, onDestroy) => {
     listTitleIcon.style.display = "none";
     todoListState['title'] = inputTitleField.value
     notifyStateUpdated();
-  });
+  };
 
-  editCard.addEventListener('click', () => {
+  const editCardAction = () => {
     inputTitleField.focus();
     listTitleIcon.style.display = "block";
     editCard.style.display = "none";
-  });
+  };
+
+  expandCard.addEventListener('click', expandCardEvent);
+
+  downsizeCard.addEventListener('click', downsizeCardAction);
+
+  listTitleIcon.addEventListener('click', addTitleAction);
+
+  editCard.addEventListener('click', editCardAction);
 
   const createNewTodoItem = () => {
     if (!inputField.value) {
@@ -96,7 +107,6 @@ export const renderTodoList = (todoListState, onDestroy) => {
     const newTodoItemData = { text: inputField.value, isDone: false };
     todoListState['items'].push(newTodoItemData);
 
-    
     const { elem } = renderTodoListItem(newTodoItemData, () => {
       const i = todoListState.indexOf(newTodoItemData);
       todoListState.splice(i, 1);
@@ -130,6 +140,8 @@ export const renderTodoList = (todoListState, onDestroy) => {
     cardContainer.remove();
     inputField.removeEventListener('keydown', inputActions);
     listButton.removeEventListener('click', createNewTodoItem);
+    editCard.removeEventListener('click', editCardAction);
+    listTitleIcon.removeEventListener('click', addTitleAction);
     onDestroy();
   }, { once: true });
   
