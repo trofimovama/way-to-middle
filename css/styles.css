@@ -69,8 +69,7 @@ ul {
   opacity: .5;
 }
 
-.list-app:hover,
-.delete-list-card-icon:hover {
+.list-app:hover {
   display: block;
 }
 
@@ -78,6 +77,10 @@ ul {
   width: 18px;
   padding-left: 10px;
   display: none;
+}
+
+.list-app:hover .delete-list-card-icon {
+  display: block;
 }
 
 /* -------- INPUT -------- */

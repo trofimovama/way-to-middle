@@ -22,8 +22,7 @@ export const renderApp = (appState) => {
   rootContainer.append(...todoListElems);
 
   addListsButton.addEventListener('click', () => {
-    // TODO: ??? compose new data str-re on the root level ??
-    const newListData = [];
+    const newListData = {title: '', items: []};
     rootState.push(newListData);
 
     const { elem } = renderTodoList(newListData, () => {
@@ -33,7 +32,6 @@ export const renderApp = (appState) => {
     });
     
     rootContainer.append(elem);
-
     notifyStateUpdated();
   });
 

@@ -2,8 +2,6 @@ import { notifyStateUpdated } from "../state/root.state.js";
 import { renderTemplate } from "../utils/render-template.js";
 
 export const renderTodoListItem = (todoListItemState, onDestroy) => {
-
-  // TODO: to replace checkboxes with icons, because they are white by default even after darkening bg
   const fragmentItem = renderTemplate(`
     <li class="list-row">
       <input type="checkbox" class="checkbox"/>

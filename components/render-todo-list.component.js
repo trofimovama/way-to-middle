@@ -3,7 +3,6 @@ import { notifyStateUpdated } from '../state/root.state.js';
 import { renderTemplate } from '../utils/render-template.js';
 
 
-// TODO: ?? add renderTodoListTitle file to implement new data str-re??
 export const renderTodoList = (todoListState, onDestroy) => {
 
   const fragment = renderTemplate(`
@@ -37,19 +36,14 @@ export const renderTodoList = (todoListState, onDestroy) => {
   const downsizeCard = fragment.querySelector('.downsize-icon');
   const editCard = fragment.querySelector('.edit-list-title-icon');
 
-  const todoListItemElems = todoListState
+  const todoListItemElems = todoListState['items']
     .map((todoListItemData) => renderTodoListItem(todoListItemData, () => {
-      const i = todoListState.indexOf(todoListItemElems);
-      todoListState.splice(i, 1);
-
+      const i = todoListState['items'].indexOf(todoListItemElems);
+      todoListState['items'].splice(i, 1);
       notifyStateUpdated();
     }))
-    .map(({ elem }) => elem);
-
+    .map(({ elem }) => elem)
   listContainer.append(...todoListItemElems);
-
-  // TODO: to remove event Listener when data str-re implemented
-  // TODO: to explore other way of adding html variable in DOM or this solution can "live"
   expandCard.addEventListener('click', () => {
     cardContainer.style.position = "absolute";
     cardContainer.style.zIndex = "10";
@@ -67,25 +61,20 @@ export const renderTodoList = (todoListState, onDestroy) => {
     cardContainer.style.boxShadow = "none";
   });
 
-  // TODO: tip needed, seems like "костыльное решение"??
-  // TODO: remove listener it after correct implementation
   downsizeCard.addEventListener('click', () => {
     window.location.reload();
   })
 
-  // TODO: to remove event Listener when data str-re implemented
   listTitleIcon.addEventListener('click', () => {
-    const objTitle = {title: inputTitleField.value};
     inputTitleField.style.color = "black";
     inputTitleField.style.fontWeight = "bold";
     inputTitleField.style.textAlign = "center";
     editCard.style.display = "block";
     listTitleIcon.style.display = "none";
-    // todoListState.push(objTitle);
-    // notifyStateUpdated();
+    todoListState['title'] = inputTitleField.value
+    notifyStateUpdated();
   });
 
-  // TODO: remove this event Listener after appr-l
   editCard.addEventListener('click', () => {
     inputTitleField.focus();
     listTitleIcon.style.display = "block";
@@ -98,18 +87,14 @@ export const renderTodoList = (todoListState, onDestroy) => {
       return;
     };
 
-    // TODO: working, but stops after page regresh, to fix
     if (todoListState.length > 5) {
       expandable.style.display = "block";
     } else {
       expandable.style.display = "none";
     };
 
-    // TODO: to implement new data structure (tip required);
-    // const newTodoItemData = {items: [{ text: inputField.value, isDone: false }]};
     const newTodoItemData = { text: inputField.value, isDone: false };
- 
-    todoListState.push(newTodoItemData)
+    todoListState['items'].push(newTodoItemData);
 
     
     const { elem } = renderTodoListItem(newTodoItemData, () => {
