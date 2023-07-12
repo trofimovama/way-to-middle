@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
+:root {
+  --shadow-inset-color: #cecece;
+  --shadow-offset-color: #f2f2f2;
+  --placeholder-color: #777777;
+  --border-color: #AAAAAA;
+  --footer-button-color: #039BF1;
+}
+
 /* TODO: CSS variables for colors consistency */
 body {
   width: 100vw;
@@ -24,7 +32,7 @@ ul {
 .list-app {
   padding: 10px;
   margin: 10px;
-  box-shadow: 5px 5px 10px #cecece, -5px -5px 10px #f2f2f2;
+  box-shadow: 5px 5px 10px var(--shadow-inset-color), -5px -5px 10px var(--shadow-offset-color);
   border-radius: 7px;
   width: 300px;
   height: 300px;
@@ -32,7 +40,7 @@ ul {
 }
 
 .list-app:hover {
-  box-shadow: inset 5px 5px 10px #cecece, inset -5px -5px 10px #f2f2f2;
+  box-shadow: inset 5px 5px 10px var(--shadow-inset-color), inset -5px -5px 10px var(--shadow-offset-color);
 }
 
 .card-header {
@@ -68,11 +76,8 @@ ul {
   opacity: .5;
 }
 
+.list-app:hover .delete-list-card-icon,
 .list-app:hover {
-  display: block;
-}
-
-.list-app:hover .delete-list-card-icon {
   display: block;
 }
 
@@ -105,14 +110,14 @@ input[type='text'] {
 
 .input-title::placeholder {
   font-weight: 700;
-  color: #777777;
+  color: var(--placeholder-color);
   line-height: 16.94px;
 }
 
 .input-container {
   display: flex;
   align-items: center;
-  border-top: 1px solid #AAAAAA;
+  border-top: 1px solid var(--border-color);
   padding-top: 10px;
 }
 
@@ -125,8 +130,10 @@ input:focus{
   cursor: pointer;
 }
 
-.add-list-item-icon:hover {
-  opacity: .5;
+.add-list-item-icon:hover,
+.delete-list-item:hover,
+.downsize-icon:hover {
+  opacity: .4;
 }
 
 /* -------- LIST ----------- */
@@ -165,10 +172,6 @@ ul li {
   display: none;
 }
 
-.delete-list-item:hover {
-  opacity: .5;
-}
-
 .list-row:hover .delete-list-item {
   display: block;
 }
@@ -204,7 +207,7 @@ ul li span:hover {
   position: absolute;
   bottom: 10px;
   right: 10px;
-  background-color: #039BF1;
+  background-color: var(--footer-button-color);
   border-radius: 50%;
   border: none;
   height: 47.9px;
@@ -225,7 +228,7 @@ ul li span:hover {
 
 .button-footer:hover {
   background-color: transparent;
-  border: 2px solid #039BF1;
+  border: 2px solid var(--footer-button-color);
 }
 
 .button-footer:hover .button-icon {

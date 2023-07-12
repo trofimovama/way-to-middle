@@ -50,8 +50,8 @@ export const renderTodoList = (todoListState, onDestroy) => {
     cardContainer.style.right = "40%";
     downsizeCard.style.display = "block";
     expandCard.style.display = "none";
-    document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
     cardContainer.style.backgroundColor = "white";
+    document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
     cardContainer.style.height = "70%";
     expandable.remove();
     listContainer.style.maxHeight = "70%";
@@ -127,10 +127,10 @@ export const renderTodoList = (todoListState, onDestroy) => {
     cardContainer.remove();
     inputField.removeEventListener('keydown', inputActions);
     listButton.removeEventListener('click', createNewTodoItem);
-    editCard.removeEventListener('click', editCardAction);
     listTitleIcon.removeEventListener('click', addTitleAction);
     window.location.reload();
     onDestroy();
+    notifyStateUpdated();
   }, { once: true });
   
   return {
