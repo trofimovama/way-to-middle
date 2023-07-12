@@ -1,0 +1,15 @@
+{
+  "name": "way-to-middle",
+  "version": "1.0.0",
+  "description": "This is a learning project in which a todo application will be developed",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "prettier": "^2.6.2",
+    "pretty-quick": "^3.1.3"
+  }
+}
