@@ -47,8 +47,7 @@ ul {
 
 .expand-icon:hover,
 .add-list-title-icon:hover,
-.delete-list-card-icon:hover,
-.edit-list-title-icon:hover {
+.delete-list-card-icon:hover {
   opacity: .5;
   cursor: pointer;
 }
@@ -73,12 +72,6 @@ ul {
   display: block;
 }
 
-.edit-list-title-icon {
-  width: 18px;
-  padding-left: 10px;
-  display: none;
-}
-
 .list-app:hover .delete-list-card-icon {
   display: block;
 }
@@ -98,6 +91,12 @@ input[type='text'] {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.title {
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
 }
 
 .input-title, .input-item {

@@ -2,7 +2,6 @@ import { renderTodoListItem } from './render-todo-list-item.component.js';
 import { notifyStateUpdated } from '../state/root.state.js';
 import { renderTemplate } from '../utils/render-template.js';
 
-
 export const renderTodoList = (todoListState, onDestroy) => {
 
   const fragment = renderTemplate(`
@@ -10,10 +9,10 @@ export const renderTodoList = (todoListState, onDestroy) => {
       <div class="card-header">
         <input type="text" class="input-title" placeholder="Type list title..." />
         <img class="add-list-title-icon" src="../icons/add-item-dark.svg" />
-        <img class="edit-list-title-icon" src="../icons/pencil.svg" />
         <img class="expand-icon" src="../icons/expand.svg" />
         <img class="downsize-icon" src="../icons/downsize.svg" />
       </div>
+      <div class="title">${todoListState.title}</div>
       <ul class="list-container"></ul>
       <img class="expandable" src="../icons/three-dots.png" />
       <div class="input-container">
@@ -34,7 +33,6 @@ export const renderTodoList = (todoListState, onDestroy) => {
   const expandable = fragment.querySelector('.expandable');
   const expandCard = fragment.querySelector('.expand-icon');
   const downsizeCard = fragment.querySelector('.downsize-icon');
-  const editCard = fragment.querySelector('.edit-list-title-icon');
 
   const todoListItemElems = todoListState['items']
     .map((todoListItemData) => renderTodoListItem(todoListItemData, () => {
@@ -69,19 +67,10 @@ export const renderTodoList = (todoListState, onDestroy) => {
   };
 
   const addTitleAction = () => {
-    inputTitleField.style.color = "black";
-    inputTitleField.style.fontWeight = "bold";
-    inputTitleField.style.textAlign = "center";
-    editCard.style.display = "block";
+    window.location.reload();
     listTitleIcon.style.display = "none";
     todoListState['title'] = inputTitleField.value
     notifyStateUpdated();
-  };
-
-  const editCardAction = () => {
-    inputTitleField.focus();
-    listTitleIcon.style.display = "block";
-    editCard.style.display = "none";
   };
 
   expandCard.addEventListener('click', expandCardEvent);
@@ -89,8 +78,6 @@ export const renderTodoList = (todoListState, onDestroy) => {
   downsizeCard.addEventListener('click', downsizeCardAction);
 
   listTitleIcon.addEventListener('click', addTitleAction);
-
-  editCard.addEventListener('click', editCardAction);
 
   const createNewTodoItem = () => {
     if (!inputField.value) {
@@ -142,6 +129,7 @@ export const renderTodoList = (todoListState, onDestroy) => {
     listButton.removeEventListener('click', createNewTodoItem);
     editCard.removeEventListener('click', editCardAction);
     listTitleIcon.removeEventListener('click', addTitleAction);
+    window.location.reload();
     onDestroy();
   }, { once: true });
   
