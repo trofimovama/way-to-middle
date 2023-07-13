@@ -1,67 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+:root {
+  --shadow-inset-color: #cecece;
+  --shadow-offset-color: #f2f2f2;
+  --placeholder-color: #777777;
+  --border-color: #AAAAAA;
+  --footer-button-color: #039BF1;
+}
+
+/* TODO: CSS variables for colors consistency */
 body {
-  background-color: gray;
   width: 100vw;
   min-height: 100vh;
-  font-size: 20px;
-  display: flex;
-  flex-direction: column;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+}
+
+ul {
+  padding: 0;
 }
 
 .container {
-  padding: 15px;
+  margin: 10px;
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
   align-items: flex-start;
 }
 
-
+/* ------------ card styles -------------- */
 .list-app {
-  background-color: white;
+  padding: 10px;
   margin: 10px;
-  padding: 20px;
-}
-
-#list-conatiner {
-  display: flex;
-}
-
-.delete-list-icon {
-  font-size: 25px;
-  display: flex;
-  justify-content: flex-end;
-  margin: 0;
-  cursor: pointer;
-}
-
-ul li {
-  list-style: none;
+  box-shadow: 5px 5px 10px var(--shadow-inset-color), -5px -5px 10px var(--shadow-offset-color);
+  border-radius: 7px;
+  width: 300px;
+  height: 300px;
   position: relative;
 }
 
-
-.list-title {
-  color: gray;
-  text-align: center;
+.list-app:hover {
+  box-shadow: inset 5px 5px 10px var(--shadow-inset-color), inset -5px -5px 10px var(--shadow-offset-color);
 }
 
-.button {
-  background-color: black;
-  padding: 1px 10px;
-  color: white;
+.card-header {
+  display: flex;
+  align-items: center;
+}
+
+.expand-icon {
+  width: 14px;
+  padding-left: 10px;
+}
+
+.expand-icon:hover,
+.add-list-title-icon:hover,
+.delete-list-card-icon:hover {
+  opacity: .5;
   cursor: pointer;
+}
+
+.delete-list-card-icon {
+  position: absolute;
+  bottom: 5%;
+  right: 50%;
+  cursor: pointer;
+  display: none;
+}
+
+.downsize-icon {
+  display: none;
+  width: 16px;
+  padding-left: 10px;
+  cursor: pointer;
+  opacity: .5;
+}
+
+.list-app:hover .delete-list-card-icon,
+.list-app:hover {
+  display: block;
+}
+
+/* -------- INPUT -------- */
+
+input[type='text'] {
+  background: transparent;
+}
+
+.input-item {
+  width: 100%;
+}
+
+.input-title {
+  width: 90%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.title {
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+}
+
+.input-title, .input-item {
+  border: none;
+}
+
+.input-title::placeholder {
+  font-weight: 700;
+  color: var(--placeholder-color);
+  line-height: 16.94px;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid var(--border-color);
+  padding-top: 10px;
+}
+
+input:focus{
+  outline: none;
+}
+
+.add-list-item-icon {
+  padding-right: 5px;
+  cursor: pointer;
+}
+
+.add-list-item-icon:hover,
+.delete-list-item:hover,
+.downsize-icon:hover {
+  opacity: .4;
+}
+
+/* -------- LIST ----------- */
+ul li {
+  list-style: none;
+  position: relative;
+  padding: 5px 0 5px 0;
+}
+
+.list-container {
+  width: 100%;
+  max-height: 50%;
+  overflow: hidden;
+}
+
+.list-row {
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.list-item-content {
+  width: 260px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.delete-list-item {
+  position: absolute;
+  right: 0;
+  width: 14px;
+  cursor: pointer;
+  display: none;
+}
+
+.list-row:hover .delete-list-item {
+  display: block;
 }
 
 input[type=checkbox]:checked + label {
   text-decoration: line-through;
 }
 
-input[type=checkbox] {
-  margin-right: 10px;
-}
-
-input[type=text] {
-  width: 300px;
+input[type=checkbox]:checked {
+  border: none;
+  accent-color: #333333;
 }
 
 ul li span {
@@ -74,8 +195,47 @@ ul li span:hover {
   cursor: pointer;
 }
 
-.button-footer {
-  margin: auto 0 20px 20px;
-  cursor: pointer;
-  width: 10%;
+.expandable {
+  width: 30px;
+  display: block;
+  margin: auto;
+  display: none;
 }
+
+/* ------------- footer styles ------------------ */
+.button-footer {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: var(--footer-button-color);
+  border-radius: 50%;
+  border: none;
+  height: 47.9px;
+  width: 47.9px;
+  cursor: pointer;
+}
+
+.button-icon {
+  width: 24.67px;
+  padding: 5px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.button-icon-hover {
+  display: none;
+}
+
+.button-footer:hover {
+  background-color: transparent;
+  border: 2px solid var(--footer-button-color);
+}
+
+.button-footer:hover .button-icon {
+  display: none;
+}
+
+.button-footer:hover .button-icon-hover {
+  display: inline-block;
+}
+

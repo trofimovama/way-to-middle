@@ -1,4 +1,3 @@
-export const renderTemplate = (html) =>
-  document
+export const renderTemplate = (html) => document
   .createRange()
-  .createContextualFragment(html)
+  .createContextualFragment(html);
