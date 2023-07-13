@@ -1,9 +1,8 @@
-import { renderTodoListItem } from './render-todo-list-item.component.js';
-import { notifyStateUpdated } from '../state/root.state.js';
-import { renderTemplate } from '../utils/render-template.js';
+import { renderTodoListItem } from './render-todo-list-item.component';
+import { notifyStateUpdated } from '../state/root.state';
+import { renderTemplate } from '../utils/render-template';
 
 export const renderTodoList = (todoListState, onDestroy) => {
-
   const fragment = renderTemplate(`
     <div class="list-app">
       <div class="card-header">
@@ -34,42 +33,43 @@ export const renderTodoList = (todoListState, onDestroy) => {
   const expandCard = fragment.querySelector('.expand-icon');
   const downsizeCard = fragment.querySelector('.downsize-icon');
 
-  const todoListItemElems = todoListState['items']
+  const todoListItemElems = todoListState.items
     .map((todoListItemData) => renderTodoListItem(todoListItemData, () => {
-      const i = todoListState['items'].indexOf(todoListItemElems);
-      todoListState['items'].splice(i, 1);
+      const i = todoListState.items.indexOf(todoListItemElems);
+      todoListState.items.splice(i, 1);
       notifyStateUpdated();
     }))
-    .map(({ elem }) => elem)
+    .map(({ elem }) => elem);
   listContainer.append(...todoListItemElems);
 
   const expandCardEvent = () => {
-    cardContainer.style.position = "absolute";
-    cardContainer.style.zIndex = "10";
-    cardContainer.style.top = "10%";
-    cardContainer.style.right = "40%";
-    downsizeCard.style.display = "block";
-    expandCard.style.display = "none";
-    cardContainer.style.backgroundColor = "white";
-    document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
-    cardContainer.style.height = "70%";
+    cardContainer.style.position = 'absolute';
+    cardContainer.style.zIndex = '10';
+    cardContainer.style.top = '10%';
+    cardContainer.style.right = '40%';
+    downsizeCard.style.display = 'block';
+    expandCard.style.display = 'none';
+    cardContainer.style.backgroundColor = 'white';
+    document.body.style.backgroundColor = 'rgba(0,0,0,0.4)';
+    cardContainer.style.height = '70%';
     expandable.remove();
-    listContainer.style.maxHeight = "70%";
-    listContainer.style.overflow = "auto";
-    cardContainer.style.width = "400px";
-    cardContainer.style.boxShadow = "none";
-  }
+    listContainer.style.maxHeight = '70%';
+    listContainer.style.overflow = 'auto';
+    cardContainer.style.width = '400px';
+    cardContainer.style.boxShadow = 'none';
+  };
 
   const downsizeCardAction = () => {
     expandCard.removeEventListener('click', expandCardEvent);
-    downsizeCard.removeEventListener('click', downsizeCardAction)
+    downsizeCard.removeEventListener('click', downsizeCardAction);
     window.location.reload();
   };
 
   const addTitleAction = () => {
     window.location.reload();
-    listTitleIcon.style.display = "none";
-    todoListState['title'] = inputTitleField.value
+    listTitleIcon.style.display = 'none';
+    // eslint-disable-next-line no-param-reassign
+    todoListState.title = inputTitleField.value;
     notifyStateUpdated();
   };
 
@@ -81,18 +81,18 @@ export const renderTodoList = (todoListState, onDestroy) => {
 
   const createNewTodoItem = () => {
     if (!inputField.value) {
-      inputField.removeEventListener('keydown',  createNewTodoItem);
+      inputField.removeEventListener('keydown', createNewTodoItem);
       return;
-    };
+    }
 
     if (todoListState.length > 5) {
-      expandable.style.display = "block";
+      expandable.style.display = 'block';
     } else {
-      expandable.style.display = "none";
-    };
+      expandable.style.display = 'none';
+    }
 
     const newTodoItemData = { text: inputField.value, isDone: false };
-    todoListState['items'].push(newTodoItemData);
+    todoListState.items.push(newTodoItemData);
 
     const { elem } = renderTodoListItem(newTodoItemData, () => {
       const i = todoListState.indexOf(newTodoItemData);
@@ -108,16 +108,18 @@ export const renderTodoList = (todoListState, onDestroy) => {
     notifyStateUpdated();
   };
 
-  const cleanField = () => inputField.value = "";
+  const cleanField = () => {
+    inputField.value = '';
+  };
 
   const inputActions = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       createNewTodoItem();
     }
-    if (e.key === "Escape") {
+    if (e.key === 'Escape') {
       cleanField();
-    };
-  }
+    }
+  };
 
   inputField.addEventListener('keydown', inputActions);
 
@@ -132,8 +134,8 @@ export const renderTodoList = (todoListState, onDestroy) => {
     onDestroy();
     notifyStateUpdated();
   }, { once: true });
-  
+
   return {
-    elem: fragment
+    elem: fragment,
   };
 };

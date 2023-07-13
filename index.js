@@ -1,5 +1,5 @@
-/**  
- * @type {{ 
+/**
+ * @type {{
 *  [
 *   {
 *     title: string,
@@ -21,13 +21,12 @@
 *           ]
 *   },
 *   ...
-* ] 
+* ]
 * }}
 */
 
-
-import { rootState, restoreState } from './state/root.state.js';
-import { renderApp } from './components/render-app.component.js';
+import { rootState, restoreState } from './state/root.state';
+import { renderApp } from './components/render-app.component';
 
 renderApp(rootState);
 restoreState();

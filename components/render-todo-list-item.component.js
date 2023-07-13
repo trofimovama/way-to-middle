@@ -1,5 +1,5 @@
-import { notifyStateUpdated } from "../state/root.state.js";
-import { renderTemplate } from "../utils/render-template.js";
+import { notifyStateUpdated } from '../state/root.state';
+import { renderTemplate } from '../utils/render-template';
 
 export const renderTodoListItem = (todoListItemState, onDestroy) => {
   const fragmentItem = renderTemplate(`
@@ -14,11 +14,12 @@ export const renderTodoListItem = (todoListItemState, onDestroy) => {
   const deleteItem = fragmentItem.querySelector('.delete-list-item');
   const listItem = fragmentItem.querySelector('li');
 
-  if(todoListItemState.isDone) {
+  if (todoListItemState.isDone) {
     listItemInput.setAttribute('checked', todoListItemState.isDone);
-  };
+  }
 
   const setIsDoneState = () => {
+    // eslint-disable-next-line no-param-reassign
     todoListItemState.isDone = listItemInput.checked;
     notifyStateUpdated();
   };
@@ -32,6 +33,6 @@ export const renderTodoListItem = (todoListItemState, onDestroy) => {
   }, { once: true });
 
   return {
-    elem: fragmentItem
+    elem: fragmentItem,
   };
 };
