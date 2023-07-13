@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+# Source:
+# https://gist.github.com/bartoszmajsak/1396344?permalink_comment_id=2974876#gistcomment-2974876
+
+if [ -z "$BRANCHES_TO_SKIP" ]; then
+  BRANCHES_TO_SKIP=(master develop stage)
+fi
+
+BRANCH_NAME=$(git symbolic-ref --short HEAD)
+IFS='/' read -r -a BRANCH_NAME_PARTS <<< "$BRANCH_NAME"
+PREFIX="${BRANCH_NAME_PARTS[0]}"
+
+BRANCH_EXCLUDED=$(printf "%s\n" "${BRANCHES_TO_SKIP[@]}" | grep -c "^$BRANCH_NAME$")
+BRANCH_IN_COMMIT=$(grep -c "\[$PREFIX\]" $1)
+
+if [ -n "$BRANCH_NAME" ] && ! [[ $BRANCH_EXCLUDED -eq 1 ]] && ! [[ $BRANCH_IN_COMMIT -ge 1 ]]; then
+  sed -i.bak -e "1s%^%[$PREFIX] %" $1
+fi
