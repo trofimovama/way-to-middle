@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Way to Middle</title>
+  </head>
+  <body>
+    <!--    <h1>hello</h1>-->
+    <!--    <img src="assets/webpack-logo.png" />-->
+    <label class="checkbox">
+      <input type="checkbox" class="checkbox__input" />
+      <span class="checkbox__decor">
+        <svg class="checkbox__decor-icon" fill="#fff" width="12" height="12">
+          <use xlink:href="#plus"></use>
+        </svg>
+      </span>
+    </label>
+
+    <div class="article">
+      <h1 class="article__title"></h1>
+      <a href="#" class="see-more-action">
+        See more
+        <svg class="see-more-action__icon" width="25" height="25">
+          <use xlink:href="#plus"></use>
+        </svg>
+      </a>
+    </div>
+
+    <article class="card">
+      <img class="card__image" src="https://picsum.photos/200/300" />
+      <div class="card__content">
+        <p class="card__title">Lorem ipsum dolor.</p>
+        <p class="card__description">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut facilis ipsam sequi!
+        </p>
+        <a href="#" class="see-more-action">
+          See more
+          <svg class="see-more-action__icon" width="25" height="25">
+            <use xlink:href="#plus"></use>
+          </svg>
+        </a>
+      </div>
+    </article>
+
+    <article class="card card--dark">
+      <img class="card__image" src="https://picsum.photos/200/300" />
+      <div class="card__content">
+        <p class="card__title">Lorem ipsum dolor.</p>
+        <p class="card__description">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut facilis ipsam sequi!
+        </p>
+        <a href="#" class="see-more-action">
+          More info
+          <svg class="see-more-action__icon" width="25" height="25">
+            <use xlink:href="#plus"></use>
+          </svg>
+        </a>
+      </div>
+    </article>
+
+    <!--  to show popup remove inline styles  -->
+    <div class="overlay" style="display: none">
+      <div class="todo-list-form"></div>
+    </div>
+  </body>
+</html>

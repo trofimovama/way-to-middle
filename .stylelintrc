@@ -1,5 +1,5 @@
 {
-  "plugins": ["stylelint-order"],
+  "plugins": ["stylelint-order", "stylelint-scss"],
   "rules": {
     "order/order": [
       "custom-properties",
@@ -581,7 +581,15 @@
     "at-rule-no-unknown": [
       true,
       {
-        "ignoreAtRules": ["import-glob", "mixin", "define-mixin", "include", "content", "rules"]
+        "ignoreAtRules": [
+          "import-glob",
+          "mixin",
+          "define-mixin",
+          "include",
+          "content",
+          "rules",
+          "use"
+        ]
       }
     ],
     "at-rule-no-vendor-prefix": true,
